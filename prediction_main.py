@@ -40,7 +40,6 @@ feature_columns = []
 for feature_name in CATEGORICAL_COLUMNS:
     # gets a list of all unique values from given feature column
     vocabulary = dftrain[feature_name].unique()
-    print(vocabulary)
     feature_columns.append(tf.feature_column.categorical_column_with_vocabulary_list(
         feature_name, vocabulary))
 
@@ -49,6 +48,25 @@ for feature_name in NUMERIC_COLUMNS:
     feature_columns.append(tf.feature_column.numeric_column(
         feature_name, dtype=tf.float32))
 
-print(feature_columns)
 '''[VocabularyListCategoricalColumn(key='sex', vocabulary_list=('male', 'female'), dtype=tf.string, default_value=-1, num_oov_buckets=0), VocabularyListCategoricalColumn(key='n_siblings_spouses', vocabulary_list=(1, 0, 3, 4, 2, 5, 8), dtype=tf.int64, default_value=-1, num_oov_buckets=0), VocabularyListCategoricalColumn(key='parch', vocabulary_list=(0, 1, 2, 5, 3, 4), dtype=tf.int64, default_value=-1, num_oov_buckets=0), VocabularyListCategoricalColumn(key='class', vocabulary_list=('Third', 'First', 'Second'), dtype=tf.string, default_value=-1, num_oov_buckets=0), VocabularyListCategoricalColumn(key='deck', vocabulary_list=('unknown', 'C', 'G', 'A', 'B', 'D', 'F', 'E'), dtype=tf.string, default_value=-1, num_oov_buckets=0), VocabularyListCategoricalColumn(key='embark_town', vocabulary_list=('Southampton', 'Cherbourg', 'Queenstown', 'unknown'), dtype=tf.string, default_value=-1, num_oov_buckets=0), VocabularyListCategoricalColumn(key='alone', vocabulary_list=('n', 'y'), dtype=tf.string, default_value=-1, num_oov_buckets=0), NumericColumn(key='age', shape=(1,), 
 default_value=None, dtype=tf.float32, normalizer_fn=None), NumericColumn(key='fare', shape=(1,), default_value=None, dtype=tf.float32, normalizer_fn=None)]'''
+
+# to make the prediction model using tensorflow we require data as a tf.data.Dataset object.
+# we need to make into a correct format for the model
+
+
+def make_input_fn(data_df, label_df, num_epochs=10, shuffle=True, batch_size=32):
+    def input_function():  # inner function, this will be returned
+        # create tf.data.Dataset object with data and its label
+        ds = tf.data.Dataset.from_tensor_slices((dict(data_df), label_df))
+        if shuffle:
+            ds = ds.shuffle(1000)  # randomize order of data
+        # split dataset into batches of 32 and repeat process for number of epochs
+        ds = ds.batch(batch_size).repeat(num_epochs)
+        return ds  # return a batch of the dataset
+    return input_function  # return a function object for use
+
+
+# here we will call the input_function that was returned to us to get a dataset object we can feed to the model
+train_input_fn = make_input_fn(dftrain, y_train)
+eval_input_fn = make_input_fn(dfeval, y_eval, num_epochs=1, shuffle=False)
