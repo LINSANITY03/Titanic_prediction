@@ -81,4 +81,7 @@ result = linear_est.evaluate(eval_input_fn)
 
 pred_dicts = list(linear_est.predict(eval_input_fn))
 probs = pd.Series([pred['probabilities'][1] for pred in pred_dicts])
-print(probs)
+probs.plot(kind='hist', bins=20, title='predicted probabilities')
+plt.show()
+
+# show we get that according to this model the probabilities of surviving is low 0.0-0.4 as the most frequent probability
