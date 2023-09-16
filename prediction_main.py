@@ -73,3 +73,12 @@ eval_input_fn = make_input_fn(dfeval, y_eval, num_epochs=1, shuffle=False)
 
 # now we create a linear model using tensorflow linearclassifier
 linear_est = tf.estimator.LinearClassifier(feature_columns=feature_columns)
+
+# we train the model using the Dataset object
+linear_est.train(train_input_fn)  # train
+# get model metrics/stats by testing on tetsing data
+result = linear_est.evaluate(eval_input_fn)
+
+pred_dicts = list(linear_est.predict(eval_input_fn))
+probs = pd.Series([pred['probabilities'][1] for pred in pred_dicts])
+print(probs)
