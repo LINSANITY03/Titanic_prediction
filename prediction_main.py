@@ -7,6 +7,7 @@ from IPython.display import clear_output
 
 import tensorflow as tf
 
+# one of the simple way to use small dataset in training is using in-memory my using numpy/pandas
 # Load dataset.
 dftrain = pd.read_csv(
     'https://storage.googleapis.com/tf-datasets/titanic/train.csv')  # training data
