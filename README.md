@@ -4,66 +4,56 @@ In this project we use pandas to collect data from a source and in-built tensorf
 
 To run this project,
 
-    *   Create a virutal environment and activate the environment.
-        `
-        virtualenv venv
-        \venv\Scripts\activate
-        `
+- Create a virutal environment and activate the environment.
+  `virtualenv venv
+\venv\Scripts\activate`
 
-    *   Run the **prediction_main.py** file.
-        `
-        python prediction_main.py
-        `
+- Run the **prediction_main.py** file.
+  `python prediction_main.py`
 
 **1. Data Collection**
-We get titanic training and evaluation data from google drive links
+We get titanic training and evaluation data from google drive links.
 
-    ```
-        import pandas as pd
-        ...
+import pandas as pd
+...
 
-        dftrain = pd.read_csv(
-        'https://storage.googleapis.com/tf-datasets/titanic/train.csv')  # training data
+dftrain = pd.read_csv(
+'https://storage.googleapis.com/tf-datasets/titanic/train.csv') # training data
 
-    dfeval = pd.read_csv(
-    'https://storage.googleapis.com/tf-datasets/titanic/eval.csv') # testing data
-
-    ```
+dfeval = pd.read_csv(
+'https://storage.googleapis.com/tf-datasets/titanic/eval.csv') # testing data
 
 **2. Feature Extraction**
 Using the in-built feature column function of tensorflow, we get all the unique value from each column of the pandas file.
 
-    ```
-    CATEGORICAL_COLUMNS = ['sex', 'n_siblings_spouses', 'parch', 'class', 'deck',
-                        'embark_town', 'alone']
+CATEGORICAL_COLUMNS = ['sex', 'n_siblings_spouses', 'parch', 'class', 'deck',
+'embark_town', 'alone']
 
-    NUMERIC_COLUMNS = ['age', 'fare']
+NUMERIC_COLUMNS = ['age', 'fare']
 
-    feature_columns = []
+feature_columns = []
 
-    # we use the inbuilt function in tensorflow to get all the unique value represented in the data of certain features
+# we use the inbuilt function in tensorflow to get all the unique value represented in the data of certain features
 
-    for feature_name in CATEGORICAL_COLUMNS: # gets a list of all unique values from given feature column
-    vocabulary = dftrain[feature_name].unique()
-    feature_columns.append(tf.feature_column.categorical_column_with_vocabulary_list(
-    feature_name, vocabulary))
+for feature_name in CATEGORICAL_COLUMNS: # gets a list of all unique values from given feature column
+vocabulary = dftrain[feature_name].unique()
+feature_columns.append(tf.feature_column.categorical_column_with_vocabulary_list(
+feature_name, vocabulary))
 
-    # similar for the numeric ones we get the features in float format
+# similar for the numeric ones we get the features in float format
 
-    for feature_name in NUMERIC_COLUMNS:
-    feature_columns.append(tf.feature_column.numeric_column(
-    feature_name, dtype=tf.float32))
-
-    ```
+for feature_name in NUMERIC_COLUMNS:
+feature_columns.append(tf.feature_column.numeric_column(
+feature_name, dtype=tf.float32))
 
 **3. Data Preparation**
 We need to make sure the data are in appropritate format for the tensorflow model. So, we convert the datas into data.Dataset object using tf.data.Dataset function
 
-    ```
-    # create tf.data.Dataset object with data and its label
-        ds = tf.data.Dataset.from_tensor_slices((dict(data_df), label_df))
+```
+# create tf.data.Dataset object with data and its label
+    ds = tf.data.Dataset.from_tensor_slices((dict(data_df), label_df))
 
-    ```
+```
 
 **4. Choosing a Model**
 Our goal is to predict the chance of survivility. So, a simple linear model would do the trick.
