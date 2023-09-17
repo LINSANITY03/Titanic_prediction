@@ -95,5 +95,4 @@ plt.show()
 <p align="center">
   <img src="./screenshots/prediction.JPG" alt="prediction">
   <h1 align="center">Titanic Survivality</h1>
-  <p align="center">Probabilities based on linear model</p>
 </p>
