@@ -93,6 +93,5 @@ plt.show()
 ```
 
 <p align="center">
-  <h1 align="center">Titanic Survivality</h1>
   <img src="./screenshots/prediction.JPG" alt="prediction">
 </p>
