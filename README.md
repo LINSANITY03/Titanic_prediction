@@ -11,7 +11,7 @@ To run this project,
 - Run the **prediction_main.py** file.
   `python prediction_main.py`
 
-**1. Data Collection**
+**1. Data Collection:**
 We get titanic training and evaluation data from google drive links.
 
 ```
@@ -25,7 +25,7 @@ dfeval = pd.read_csv(
 'https://storage.googleapis.com/tf-datasets/titanic/eval.csv') # testing data
 ```
 
-**2. Feature Extraction**
+**2. Feature Extraction:**
 Using the in-built feature column function of tensorflow, we get all the unique value from each column of the pandas file.
 
 ```
@@ -50,7 +50,7 @@ feature_columns.append(tf.feature_column.numeric_column(
 feature_name, dtype=tf.float32))
 ```
 
-**3. Data Preparation**
+**3. Data Preparation:**
 We need to make sure the data are in appropritate format for the tensorflow model. So, we convert the datas into data.Dataset object using tf.data.Dataset function
 
 ```
@@ -60,28 +60,28 @@ ds = tf.data.Dataset.from_tensor_slices((dict(data_df), label_df))
 
 ```
 
-**4. Choosing a Model**
+**4. Choosing a Model:**
 Our goal is to predict the chance of survivility. So, a simple linear model would do the trick.
 
 ```
 linear_est = tf.estimator.LinearClassifier(feature_columns=feature_columns)
 ```
 
-**5. Training the model**
+**5. Training the model:**
 We use the data we convert to data.Dataset object to the model.
 
 ```
 linear_est.train(train_input_fn)  # train
 ```
 
-**6. Evaluate the model**
+**6. Evaluate the model:**
 Test the unseen dataset to measure the performance of the trained model.
 
 ```
 result = linear_est.evaluate(eval_input_fn)
 ```
 
-**7. Make prediction**
+**7. Make prediction:**
 Using the evaluated model predict the survivor possibilty and plot the stats into graph using matplot for better readability.
 
 ```
