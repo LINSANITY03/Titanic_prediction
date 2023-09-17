@@ -5,7 +5,7 @@ In this project we use pandas to collect data from a source and in-built tensorf
 To run this project,
 
 - Create a virutal environment and activate the environment.
-  `virtualenv venv
+  `  virtualenv venv
 \venv\Scripts\activate`
 
 - Run the **prediction_main.py** file.
@@ -14,14 +14,14 @@ To run this project,
 **1. Data Collection**
 We get titanic training and evaluation data from google drive links.
 
-import pandas as pd
+`import pandas as pd
 ...
 
 dftrain = pd.read_csv(
 'https://storage.googleapis.com/tf-datasets/titanic/train.csv') # training data
 
 dfeval = pd.read_csv(
-'https://storage.googleapis.com/tf-datasets/titanic/eval.csv') # testing data
+'https://storage.googleapis.com/tf-datasets/titanic/eval.csv') # testing data`
 
 **2. Feature Extraction**
 Using the in-built feature column function of tensorflow, we get all the unique value from each column of the pandas file.
