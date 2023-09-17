@@ -28,6 +28,7 @@ dfeval = pd.read_csv(
 **2. Feature Extraction**
 Using the in-built feature column function of tensorflow, we get all the unique value from each column of the pandas file.
 
+```
 CATEGORICAL_COLUMNS = ['sex', 'n_siblings_spouses', 'parch', 'class', 'deck',
 'embark_town', 'alone']
 
@@ -47,6 +48,7 @@ feature_name, vocabulary))
 for feature_name in NUMERIC_COLUMNS:
 feature_columns.append(tf.feature_column.numeric_column(
 feature_name, dtype=tf.float32))
+```
 
 **3. Data Preparation**
 We need to make sure the data are in appropritate format for the tensorflow model. So, we convert the datas into data.Dataset object using tf.data.Dataset function
@@ -54,44 +56,38 @@ We need to make sure the data are in appropritate format for the tensorflow mode
 ```
 
 # create tf.data.Dataset object with data and its label
-
-    ds = tf.data.Dataset.from_tensor_slices((dict(data_df), label_df))
+ds = tf.data.Dataset.from_tensor_slices((dict(data_df), label_df))
 
 ```
 
 **4. Choosing a Model**
 Our goal is to predict the chance of survivility. So, a simple linear model would do the trick.
 
-    ```
-    linear_est = tf.estimator.LinearClassifier(feature_columns=feature_columns)
-    ```
+```
+linear_est = tf.estimator.LinearClassifier(feature_columns=feature_columns)
+```
 
 **5. Training the model**
 We use the data we convert to data.Dataset object to the model.
 
-    ```
-    linear_est.train(train_input_fn)  # train
-    ```
+```
+linear_est.train(train_input_fn)  # train
+```
 
 **6. Evaluate the model**
 Test the unseen dataset to measure the performance of the trained model.
 
-    ```
-    result = linear_est.evaluate(eval_input_fn)
-    ```
+```
+result = linear_est.evaluate(eval_input_fn)
+```
 
 **7. Make prediction**
 Using the evaluated model predict the survivor possibilty and plot the stats into graph using matplot for better readability.
 
-    ```
-    pred_dicts = list(linear_est.predict(eval_input_fn))
-
-    probs = pd.Series([pred['probabilities'][1] for pred in pred_dicts])
-    probs.plot(kind='hist', bins=20, title='predicted probabilities')
-    plt.show()
-
-    ```
-
 ```
+pred_dicts = list(linear_est.predict(eval_input_fn))
 
+probs = pd.Series([pred['probabilities'][1] for pred in pred_dicts])
+probs.plot(kind='hist', bins=20, title='predicted probabilities')
+plt.show()
 ```
