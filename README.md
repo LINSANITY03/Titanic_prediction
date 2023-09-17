@@ -14,14 +14,16 @@ To run this project,
 **1. Data Collection**
 We get titanic training and evaluation data from google drive links.
 
-`import pandas as pd
+```
+import pandas as pd
 ...
 
 dftrain = pd.read_csv(
 'https://storage.googleapis.com/tf-datasets/titanic/train.csv') # training data
 
 dfeval = pd.read_csv(
-'https://storage.googleapis.com/tf-datasets/titanic/eval.csv') # testing data`
+'https://storage.googleapis.com/tf-datasets/titanic/eval.csv') # testing data
+```
 
 **2. Feature Extraction**
 Using the in-built feature column function of tensorflow, we get all the unique value from each column of the pandas file.
@@ -50,7 +52,9 @@ feature_name, dtype=tf.float32))
 We need to make sure the data are in appropritate format for the tensorflow model. So, we convert the datas into data.Dataset object using tf.data.Dataset function
 
 ```
+
 # create tf.data.Dataset object with data and its label
+
     ds = tf.data.Dataset.from_tensor_slices((dict(data_df), label_df))
 
 ```
@@ -87,3 +91,7 @@ Using the evaluated model predict the survivor possibilty and plot the stats int
     plt.show()
 
     ```
+
+```
+
+```
