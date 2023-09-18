@@ -8,6 +8,10 @@ To run this project,
   `  virtualenv venv
 \venv\Scripts\activate`
 
+- Install the required dependencies.
+  `pip install -r requirements.txt
+`
+
 - Run the **prediction_main.py** file.
   `python prediction_main.py`
 
